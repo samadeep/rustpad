@@ -2,6 +2,7 @@ import {
   Button,
   Container,
   Flex,
+  IconButton,
   Heading,
   Input,
   InputGroup,
@@ -14,11 +15,13 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { VscRepo } from "react-icons/vsc";
+import { VscChevronLeft } from "react-icons/vsc";
 
 import ConnectionStatus from "./ConnectionStatus";
 import User from "./User";
 import languages from "./languages.json";
 import type { UserInfo } from "./rustpad";
+import { removeListener } from "process";
 
 export type SidebarProps = {
   documentId: string;
@@ -32,6 +35,7 @@ export type SidebarProps = {
   onLoadSample: () => void;
   onChangeName: (name: string) => void;
   onChangeColor: () => void;
+  onCollapse: () => void;
 };
 
 function Sidebar({
@@ -46,6 +50,7 @@ function Sidebar({
   onLoadSample,
   onChangeName,
   onChangeColor,
+  onCollapse,
 }: SidebarProps) {
   const toast = useToast();
 
@@ -72,7 +77,21 @@ function Sidebar({
       maxW="full"
       lineHeight={1.4}
       py={4}
+      position="relative"
     >
+      <IconButton
+        aria-label="Collapse sidebar"
+        icon={<VscChevronLeft />}
+        size="sm"
+        variant="ghost"
+        color={darkMode ? "gray.400" : "gray.600"}
+        _hover={{ bg: darkMode ? "#3c3c3c" : "gray.200" }}
+        position="absolute"
+        top={2}
+        right={-3}
+        pr="1rem"
+        onClick={onCollapse}
+      />
       <ConnectionStatus darkMode={darkMode} connection={connection} />
 
       <Flex justifyContent="space-between" mt={4} mb={1.5} w="full">
