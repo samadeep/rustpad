@@ -21,7 +21,6 @@ import ConnectionStatus from "./ConnectionStatus";
 import User from "./User";
 import languages from "./languages.json";
 import type { UserInfo } from "./rustpad";
-import { removeListener } from "process";
 
 export type SidebarProps = {
   documentId: string;
