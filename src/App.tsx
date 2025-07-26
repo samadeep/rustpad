@@ -1,8 +1,10 @@
 import { Box, Flex, HStack, Icon, Text, useToast } from "@chakra-ui/react";
+import { IconButton } from "@chakra-ui/react";
 import Editor from "@monaco-editor/react";
 import { editor } from "monaco-editor/esm/vs/editor/editor.api";
 import { useEffect, useRef, useState } from "react";
 import { VscChevronRight, VscFolderOpened, VscGist } from "react-icons/vsc";
+import { VscChevronRight as VscChevronRightIcon, VscChevronLeft as VscChevronLeftIcon } from "react-icons/vsc";
 import useLocalStorageState from "use-local-storage-state";
 
 import rustpadRaw from "../rustpad-server/src/rustpad.rs?raw";
@@ -45,6 +47,7 @@ function App() {
   const [darkMode, setDarkMode] = useLocalStorageState("darkMode", {
     defaultValue: false,
   });
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const rustpad = useRef<Rustpad>();
   const id = useHash();
 
@@ -156,19 +159,34 @@ function App() {
         Rustpad
       </Box>
       <Flex flex="1 0" minH={0}>
-        <Sidebar
-          documentId={id}
-          connection={connection}
-          darkMode={darkMode}
-          language={language}
-          currentUser={{ name, hue }}
-          users={users}
-          onDarkModeChange={handleDarkModeChange}
-          onLanguageChange={handleLanguageChange}
-          onLoadSample={() => handleLoadSample(false)}
-          onChangeName={(name) => name.length > 0 && setName(name)}
-          onChangeColor={() => setHue(generateHue())}
-        />
+        {sidebarCollapsed ? (
+          <Box
+            w="2rem"
+            bgColor={darkMode ? "#252526" : "#f3f3f3"}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            cursor="pointer"
+            onClick={() => setSidebarCollapsed(false)}
+          >
+            <Icon as={VscChevronRightIcon} color={darkMode ? "gray.400" : "gray.600"} />
+          </Box>
+        ) : (
+          <Sidebar
+            documentId={id}
+            connection={connection}
+            darkMode={darkMode}
+            language={language}
+            currentUser={{ name, hue }}
+            users={users}
+            onDarkModeChange={handleDarkModeChange}
+            onLanguageChange={handleLanguageChange}
+            onLoadSample={() => handleLoadSample(false)}
+            onChangeName={(name) => name.length > 0 && setName(name)}
+            onChangeColor={() => setHue(generateHue())}
+            onCollapse={() => setSidebarCollapsed(true)}
+          />
+        )}
         <ReadCodeConfirm
           isOpen={readCodeConfirmOpen}
           onClose={() => setReadCodeConfirmOpen(false)}

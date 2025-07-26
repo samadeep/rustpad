@@ -35,7 +35,7 @@ export type SidebarProps = {
   onLoadSample: () => void;
   onChangeName: (name: string) => void;
   onChangeColor: () => void;
-  onCollapse: () => void;
+  onCollapse?: () => void;
 };
 
 function Sidebar({
@@ -79,6 +79,7 @@ function Sidebar({
       py={4}
       position="relative"
     >
+      {onCollapse && (
       <IconButton
         aria-label="Collapse sidebar"
         icon={<VscChevronLeft />}
@@ -91,7 +92,7 @@ function Sidebar({
         right={-3}
         pr="1rem"
         onClick={onCollapse}
-      />
+      />)}
       <ConnectionStatus darkMode={darkMode} connection={connection} />
 
       <Flex justifyContent="space-between" mt={4} mb={1.5} w="full">
