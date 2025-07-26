@@ -4,7 +4,6 @@ import Editor from "@monaco-editor/react";
 import { editor } from "monaco-editor/esm/vs/editor/editor.api";
 import { useEffect, useRef, useState } from "react";
 import { VscChevronRight, VscFolderOpened, VscGist } from "react-icons/vsc";
-import { VscChevronRight as VscChevronRightIcon, VscChevronLeft as VscChevronLeftIcon } from "react-icons/vsc";
 import useLocalStorageState from "use-local-storage-state";
 
 import rustpadRaw from "../rustpad-server/src/rustpad.rs?raw";
@@ -169,7 +168,7 @@ function App() {
             cursor="pointer"
             onClick={() => setSidebarCollapsed(false)}
           >
-            <Icon as={VscChevronRightIcon} color={darkMode ? "gray.400" : "gray.600"} />
+            <Icon as={VscChevronRight} color={darkMode ? "gray.400" : "gray.600"} />
           </Box>
         ) : (
           <Sidebar
