@@ -198,6 +198,17 @@ function App() {
             <Editor
               theme={darkMode ? "vs-dark" : "vs"}
               language={language}
+              beforeMount={(monaco) => {
+                if (!monaco.languages.getLanguages().some((l) => l.id === "python3")) {
+                  monaco.languages.register({ id: "python3", aliases: ["python3", "Python 3"] });
+                  // Dynamically import the original Python tokens & config.
+                  // @ts-ignore - Monaco's internal modules don't ship type declarations.
+                  import("monaco-editor/esm/vs/basic-languages/python/python").then((m) => {
+                    monaco.languages.setMonarchTokensProvider("python3", m.language);
+                    monaco.languages.setLanguageConfiguration("python3", m.conf);
+                  }); 
+                }
+              }}
               options={{
                 automaticLayout: true,
                 fontSize: 13,
